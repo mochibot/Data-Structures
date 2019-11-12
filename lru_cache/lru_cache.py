@@ -44,17 +44,17 @@ class LRUCache:
     the newly-specified value.
     """
     def set(self, key, value):
-        if self.nodes == self.limit:                # if limit is reached
-            if key in self.storage:                 # overwrite existing key:value pair
-                self.entries.move_to_front(self.storage[key])
-                self.storage[key].value = value
-            else:                                   # if new key does not exist in cache
-                least = self.entries.tail           # remove least used entry and add new key:value pair
+        if key in self.storage:                             # overwrite existing key:value pair
+            self.entries.move_to_front(self.storage[key])
+            self.storage[key].value = value
+        else:
+            if self.nodes == self.limit:                # if limit is reached
+                least = self.entries.tail               # remove least used entry and add new key:value pair
                 self.entries.remove_from_tail() 
                 self.storage = {k:v for k,v in self.storage.items() if v != least}
                 self.entries.add_to_head(value)
-                self.storage[key] = self.entries.head
-        else:                                       
-            self.entries.add_to_head(value)
-            self.nodes += 1
+            else:                                       
+                self.entries.add_to_head(value)
+                self.nodes += 1
+
             self.storage[key] = self.entries.head
