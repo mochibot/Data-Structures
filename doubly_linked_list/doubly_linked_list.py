@@ -54,13 +54,12 @@ class DoublyLinkedList:
     def add_to_head(self, value):
         self.length += 1
         new_head = ListNode(value)
-        if not self.head:
+        if not self.head and not self.tail:
             self.head = new_head
             self.tail = new_head
         else:
-            old_head = self.head
-            new_head.next = old_head
-            old_head.prev = new_head
+            new_head.next = self.head
+            self.head.prev = new_head
             self.head = new_head
 
     """Removes the List's current head node, making the
@@ -69,10 +68,9 @@ class DoublyLinkedList:
     def remove_from_head(self):
         if not self.head:
             return None
-        
-        curr_head = self.head
-        self.delete(curr_head)
-        return curr_head.value
+        removed = self.head.value
+        self.delete(self.head)
+        return removed
 
     """Wraps the given value in a ListNode and inserts it 
     as the new tail of the list. Don't forget to handle 
@@ -80,24 +78,23 @@ class DoublyLinkedList:
     def add_to_tail(self, value):
         self.length += 1
         new_tail = ListNode(value)
-        if not self.head:
+        if not self.head and not self.tail:
             self.head = new_tail
             self.tail = new_tail
         else:
-            old_tail = self.tail
-            old_tail.next = new_tail
-            new_tail.prev = old_tail
+            new_tail.prev = self.tail
+            self.tail.next = new_tail
             self.tail = new_tail
         
     """Removes the List's current tail node, making the 
     current tail's previous node the new tail of the List.
     Returns the value of the removed Node."""
     def remove_from_tail(self):
-        if not self.head:
+        if not self.tail:
             return None
-        curr_tail = self.tail
-        self.delete(curr_tail)
-        return curr_tail.value
+        removed = self.tail.value
+        self.delete(self.tail)
+        return removed
 
     """Removes the input node from its current spot in the 
     List and inserts it as the new head node of the List."""
@@ -126,7 +123,7 @@ class DoublyLinkedList:
             self.head = node.next
             node.delete()
         elif node == self.tail:
-            self.tail == node.prev
+            self.tail = node.prev
             node.delete()
         else:
             node.delete()
