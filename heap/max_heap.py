@@ -51,10 +51,10 @@ class Heap:
         left_child = 2 * (index + 1) - 1
         right_child = 2 * (index + 1)
 
-        if right_child > self.get_size() - 1:
+        if left_child > self.get_size() - 1:
             return 
 
-        bigger = left_child if self.storage[left_child] > self.storage[right_child] else right_child
+        bigger = left_child if left_child == self.get_size() - 1 or self.storage[left_child] > self.storage[right_child] else right_child
         if self.storage[bigger] > self.storage[index]:
             self.storage[index], self.storage[bigger] = self.storage[bigger], self.storage[index]
 
